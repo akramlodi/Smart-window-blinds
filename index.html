@@ -12,6 +12,16 @@
   
 <!-- Internal CSS styles -->
   <style>
+
+   h1 { 
+    margin-top: 10px;
+    color: #111; 
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 50px; font-weight: bold; 
+    letter-spacing: -1px; line-height: 1; 
+    text-align: center;
+   }
+
   .card {
       margin: 10px;
   }
@@ -22,6 +32,22 @@
   .btn-light {
       margin: 10px;
   }
+  .btn-disable {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    height: 35px;
+    border: none;
+    width: 80px
+  }
+  .btn-success {
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    height: 35px;
+    width: 80px;
+    border: none;
+  }
 
   </style>
 
@@ -29,29 +55,28 @@
 
 
 <body>
-
-    <!-- Buttons to control window blinds -->
-    <button type="button" class="btn btn-dark">Disable window blinds</button>
-    <button type="button" class="btn btn-light">Activate Window blinds</button>
-
-    <!-- Card for Sentry Mode -->
+  <h1>SMART WINDOW BLINDS</h1>
+    <!-- Card for Window Blind status -->
     <div id="succes_card"  class="card border-success mb-3 "  style="max-width: 18rem; ">
-        <div class="card-header">Sentry Mode</div>
+        <div class="card-header">Window Blinds Status</div>
         <div class="card-body text-success">
           <h5 class="card-title">Activated</h5>
           <p class="card-text"></p>
-          <button type="button" class="btn btn-success">Success</button>
+          <button type="button" class="btn-success">Activate</button>
+          <button type="button" class=" btn-disable">Disable</button>
         </div>
       </div>
+
+      
       
     <!-- Row of cards for sensors -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <!-- Card for internal heat sensor -->
         <div class="col">
           <div class="card h-100" style="width: 18rem;">
-            <img src="heat sensor.jpg" class="card-img-top" alt="...">
+            <img src="light sensor.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Heat sensor internal </h5>
+              <h5 class="card-title">Light sensor internal </h5>
               <p class="card-text">Displays current temperature inside the room</p>
             </div>
             
@@ -60,9 +85,9 @@
         <!-- Card for light sensor -->
         <div class="col">
           <div class="card h-100" style="width: 18rem;">
-            <img src="light sensor.jpg" class="card-img-top" alt="...">
+            <img src="heat sensor.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Light sensor</h5>
+              <h5 class="card-title">Temperature sensor</h5>
               <p class="card-text">Diplays current amount of light</p>
             </div>
             
@@ -71,9 +96,9 @@
         <!-- Card for external heat sensor -->
         <div class="col">
           <div class="card h-100" style="width: 18rem;">
-            <img src="heat sensor.jpg" class="card-img-top" alt="...">
+            <img src="light sensor.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Heat sensor external</h5>
+              <h5 class="card-title">Light sensor external</h5>
               <p class="card-text">Displays current temperature outside the room</p>
             </div>
 
