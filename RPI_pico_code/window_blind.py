@@ -5,17 +5,27 @@ import utime as time
 import _thread
 import json 
 
-# Define the IR emitter and Red LED (in this code Red LED is sometimes called as buzzer) pins
-ir_emitter_pin = machine.Pin(15, machine.Pin.OUT)
+#define constants
+threshold_brightness = 2
+threshold_range = 0.5
+conversion_factor = 3.3 / 65535
+brightness_factor = conversion_factor * 100
+
+
+
+# Define needed ADC pins and Red LED (in this code Red LED is sometimes called as buzzer) pins
+inside_photoresistor_pin = 26
+outside_photoresistor_pin = 27
+thermistor_pin = 28
 redLED_pin = machine.Pin(14, machine.Pin.OUT)
 redLED_status = "Off"
 
 # Function to control the IR emitter
-def control_ir_emitter(status):
-    if status == "on":
-        ir_emitter_pin.on()
-    elif status == "off":
-        ir_emitter_pin.off()
+# def control_ir_emitter(status):
+#     if status == "on":
+#         ir_emitter_pin.on()
+#     elif status == "off":
+#         ir_emitter_pin.off()
 
 # Function to get the buzzer status
 def get_redLED_status():
@@ -24,26 +34,41 @@ def get_redLED_status():
 # Function to periodically check the ADC value and control the redLED
 def check_adc_and_control_redLED():
     global redLED_status  # Declare redLED_status as global
-    adc = machine.ADC(26) 
+    adc1 = machine.ADC(inside_photoresistor_pin)
+    adc2 = machine.ADC(outside_photoresistor_pin)  
+    adc3 = machine.ADC(thermistor_pin)
     while True:
-        adc_value = adc.read_u16()
-        print("ADC Value:", adc_value)
+        adc1_value = adc1.read_u16()
+        inside_photoresistor_val = adc1_value * brightness_factor
+        print("Inside Photoresistor Value:", inside_photoresistor_val)
 
-        if adc_value > 1000: # the threshold value must be tuned based on test environment. Ambient light also has IR rays. 
-            print("Receiver/Transmitter blocked, turning on the red LED")
+        adc2_value = adc2.read_u16()
+        outside_photoresistor_val = adc2_value * brightness_factor
+        print("Outside Photoresistor Value:", outside_photoresistor_val)
+
+        adc3_value = adc3.read_u16()
+        thermistor_val = adc3_value * conversion_factor
+        temperature = 27 (thermistor_val - 0.706)/0.001721 
+        print("Thermistor Value:", temperature)
+
+        if ((outside_photoresistor_val - inside_photoresistor_val) < 0.5) and ((outside_photoresistor_val - inside_photoresistor_val) > 0) and ((outside_photoresistor_val) < threshold_brightness): 
+            print("Brightness ratio met, turning on blinds")
             redLED_pin.on()
+
         else:
-            print("Receiver/Transmitter not blocked, turning off the red LED")
+            print("Outside brightness ratio, turning off blinds")
             redLED_pin.off()
 
         redLED_status = get_redLED_status()  # Update redLED_status
         print("Red LED Status:", redLED_status)
+
+
         time.sleep(1)
 
 
 # Create a network connection
-ssid = 'RPI_PICO_AP'       #Set access point name 
-password = '12345678'      #Set your access point password
+ssid = 'SMART_BLINDS'       #Set access point name 
+password = '69420'      #Set your access point password
 ap = network.WLAN(network.AP_IF)
 ap.config(essid=ssid, password=password)
 ap.active(True)            #activating
