@@ -3,42 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage -->
     <title>Smart Window blinds</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
-    
-    <button type="button" class="btn btn-dark">Disable window blinds</button>
-    <button type="button" class="btn btn-light">Activate Window blinds</button>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-          <div class="card h-100" style="width: 18rem;">
-            <img src="heat sensor.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Heat sensor -1 </h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            </div>
-            
-          </div>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  
+<!-- Internal CSS styles -->
+  <style>
+
+   h1 { 
+    margin-top: 10px;
+    color: #111; 
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 50px; font-weight: bold; 
+    letter-spacing: -1px; line-height: 1; 
+    text-align: center;
+   }
+
+  .card {
+      margin: 10px;
+  }
+
+  .btn-dark {
+      margin: 10px;
+  }
+  .btn-light {
+      margin: 10px;
+  }
+  .btn-disable {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    height: 35px;
+    border: none;
+    width: 80px
+  }
+  .btn-success {
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    height: 35px;
+    width: 80px;
+    border: none;
+  }
+
+  </style>
+
+  </head>
+
+
+<body>
+  <h1>SMART WINDOW BLINDS</h1>
+    <!-- Card for Window Blind status -->
+    <div id="succes_card"  class="card border-success mb-3 "  style="max-width: 18rem; ">
+        <div class="card-header">Window Blinds Status</div>
+        <div class="card-body text-success">
+          <h5 class="card-title">Activated</h5>
+          <p class="card-text"></p>
+          <button type="button" class="btn-success">Activate</button>
+          <button type="button" class=" btn-disable">Disable</button>
         </div>
+      </div>
+
+      
+      
+    <!-- Row of cards for sensors -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <!-- Card for internal heat sensor -->
         <div class="col">
           <div class="card h-100" style="width: 18rem;">
             <img src="light sensor.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Light sensor</h5>
-              <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+              <h5 class="card-title">Light sensor internal </h5>
+              <p class="card-text">Displays current temperature inside the room</p>
             </div>
             
           </div>
         </div>
+        <!-- Card for light sensor -->
         <div class="col">
           <div class="card h-100" style="width: 18rem;">
             <img src="heat sensor.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Heat sensor</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+              <h5 class="card-title">Temperature sensor</h5>
+              <p class="card-text">Diplays current amount of light</p>
+            </div>
+            
+          </div>
+        </div>
+        <!-- Card for external heat sensor -->
+        <div class="col">
+          <div class="card h-100" style="width: 18rem;">
+            <img src="light sensor.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Light sensor external</h5>
+              <p class="card-text">Displays current temperature outside the room</p>
             </div>
 
           </div>
@@ -48,7 +109,7 @@
 
 
 
-
+    <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
