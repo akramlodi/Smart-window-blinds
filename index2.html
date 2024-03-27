@@ -24,12 +24,6 @@
       margin: 10px;
   }
 
-  .btn-dark {
-      margin: 10px;
-  }
-  .btn-light {
-      margin: 10px;
-  }
   .btn-disable {
     background-color: black;
     color: white;
@@ -38,7 +32,7 @@
     border: none;
     width: 80px
   }
-  .btn-success {
+  .btn-activate {
     background-color: green;
     color: white;
     border-radius: 5px;
@@ -46,14 +40,16 @@
     width: 80px;
     border: none;
   }
+
+  .color_activation {
+    color: green;
+  }
   .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   width: 20%;
   margin-left: 10px;
   margin-top: 10px;
-  border-radius: 5px;
-  border: green;
-
+  border-radius: 10px; 
 }
 
 .container {
@@ -78,9 +74,9 @@ align-items: center;
       <div class="card">
         <div class="container">
           <h4><b>Window Blinds Status</b></h4> 
-          <p>Activated</p> 
-          <button type="button" class="btn-success">Activate</button>
-          <button type="button" class=" btn-disable">Disable</button>
+          <p class="color_activation">Activated</p> 
+          <button type="button" class="btn-activate">Activate</button>
+          <button type="button" class="btn-disable">Disable</button>
         </div>
       </div>
 
