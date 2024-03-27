@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage -->
+    <title>Smart Window blinds</title>
+  
+<!-- Internal CSS styles -->
+  <style>
+
+   h1 { 
+    margin-top: 10px;
+    color: #111; 
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 50px; font-weight: bold; 
+    letter-spacing: -1px; line-height: 1; 
+    text-align: center;
+   }
+
+  .card {
+      margin: 10px;
+  }
+
+  .btn-dark {
+      margin: 10px;
+  }
+  .btn-light {
+      margin: 10px;
+  }
+  .btn-disable {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    height: 35px;
+    border: none;
+    width: 80px
+  }
+  .btn-success {
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    height: 35px;
+    width: 80px;
+    border: none;
+  }
+  .card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: 20%;
+  margin-left: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: green;
+
+}
+
+.container {
+  padding:  16px;
+}
+
+.sensors-container {
+display: flex;
+flex-direction: row;
+align-items: center;
+}
+
+  </style>
+
+  </head>
+
+
+<body>
+  <h1>SMART WINDOW BLINDS</h1>
+    <!-- Card for Window Blind status -->
+
+      <div class="card">
+        <div class="container">
+          <h4><b>Window Blinds Status</b></h4> 
+          <p>Activated</p> 
+          <button type="button" class="btn-success">Activate</button>
+          <button type="button" class=" btn-disable">Disable</button>
+        </div>
+      </div>
+
+    <div class="sensors-container">
+      <div class="card">
+        <img src="light sensor.jpg" alt="Avatar" style="width:100%">
+        <div class="container">
+          <h4><b>Light sensor internal</b></h4> 
+          <p>Displays amount of light inside the room</p> 
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="heat sensor.jpg" alt="Avatar" style="width:100%">
+        <div class="container">
+          <h4><b>Temperature sensor</b></h4> 
+          <p>Displays current Temperature</p> 
+        </div>
+      </div>
+
+
+      <div class="card">
+        <img src="light sensor.jpg" alt="Avatar" style="width:100%">
+        <div class="container">
+          <h4><b>Light sensor external</b></h4> 
+          <p>Displays amount of light outside the room</p> 
+        </div>
+      </div>
+    </div>
+
+
+</body>
+</html>
