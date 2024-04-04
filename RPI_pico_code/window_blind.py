@@ -86,71 +86,112 @@ def web_page():
     buzzer_color = "red" if redLED_status == "On" else "gray"
     
     html = """<html><head>
-    <title>Pico Web Server</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="data:,">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Title of the webpage -->
+        <title>Smart Window blinds</title>
+    
+    <!-- Internal CSS styles -->
     <style>
-        html {
-            font-family: Helvetica;
-            text-align: center;
-            background-color: #b0b2b2;
-        }
-        h1 {
-            color: #0F3376;
-            padding: 2vh;
-        }
-        p {
-            font-size: 1.5rem;
-        }
-        .button {
-            display: inline-block;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            padding: 16px 40px;
-            text-decoration: none;
-            font-size: 30px;
-            margin: 2px;
-            cursor: pointer;
-        }
-        .button2 {
-            background-color: #555555;
-        }
-        .circle {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-left: 10px;
-        }
+
+    h1 { 
+        margin-top: 10px;
+        color: #111; 
+        font-family: 'Helvetica Neue', sans-serif;
+        font-size: 50px; font-weight: bold; 
+        letter-spacing: -1px; line-height: 1; 
+        text-align: center;
+        background-color: #3AB54A;
+        border-radius: 10px;
+    }
+
+    .card {
+        margin: 10px;
+    }
+
+    .btn-disable {
+        background-color: black;
+        color: white;
+        border-radius: 5px;
+        height: 35px;
+        border: none;
+        width: 80px
+    }
+    .btn-activate {
+        background-color: green;
+        color: white;
+        border-radius: 5px;
+        height: 35px;
+        width: 80px;
+        border: none;
+    }
+
+    .color_activation {
+        color: green;
+    }
+    .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    width: 20%;
+    margin-left: 10px;
+    margin-top: 10px;
+    border-radius: 10px; 
+    }
+
+    .container {
+    padding:  16px;
+    }
+
+    .sensors-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    }
+
     </style>
-    <script>
-        function updateStatus() {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    document.getElementById("irEmitterStatus").innerHTML = data.irEmitterStatus;
-                    var irEmitterColor = data.irEmitterStatus === "ON" ? "purple" : "black";
-                    document.getElementById("irEmitterIndicator").style.backgroundColor = irEmitterColor;
-                    document.getElementById("RedLEDStatus").innerHTML = data.RedLEDStatus;
-                    var buzzerColor = data.RedLEDStatus === "On" ? "red" : "gray";
-                    document.getElementById("buzzerIndicator").style.backgroundColor = buzzerColor;
-                }
-            };
-            xhr.open("GET", "/status", true);
-            xhr.send();
-        }
-        setInterval(updateStatus, 1000); // Refresh every 1 second
-    </script>
+
     </head>
+
     <body>
-    <h1>IR Detector</h1>
-    <p>IR Emitter: <strong id="irEmitterStatus">""" + ir_emitter_status + """</strong><div class="circle" id="irEmitterIndicator" style="background-color: """ + ir_emitter_color + """;"></div></p>
-    <p>RedLED Status: <strong id="RedLEDStatus">""" + redLED_status + """</strong><div class="circle" id="buzzerIndicator" style="background-color: """ + buzzer_color + """;"></div></p>
-    <p><a href="/?ir_emitter_pin=on"><button class="button">IR Emitter ON</button></a></p>
-    <p><a href="/?ir_emitter_pin=off"><button class="button button2">IR Emitter OFF</button></a></p>
+    <h1>SMART WINDOW BLINDS</h1>
+        <!-- Card for Window Blind status -->
+
+        <div class="card">
+            <div class="container">
+            <h4>Window Blinds Status</h4> 
+            <p class="color_activation">Activated</p> 
+            <button type="button" class="btn-activate">Activate</button>
+            <button type="button" class="btn-disable">Disable</button>
+            </div>
+        </div>
+
+        <div class="sensors-container">
+        <div class="card">
+            <img src="light sensor.jpg" alt="Avatar" style="width:100%">
+            <div class="container">
+            <h4>Light sensor internal</h4> 
+            <p>Light_sensor_internal</p> 
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="heat sensor.jpg" alt="Avatar" style="width:100%">
+            <div class="container">
+            <h4>Temperature sensor</h4> 
+            <p>Temperature-sensor</p> 
+            </div>
+        </div>
+
+
+        <div class="card">
+            <img src="light sensor.jpg" alt="Avatar" style="width:100%">
+            <div class="container">
+            <h4>Light sensor external</h4> 
+            <p>light_sensor_external</p> 
+            </div>
+        </div>
+        </div>
+
+
     </body>
     </html>"""
     return html
