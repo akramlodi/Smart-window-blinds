@@ -1,0 +1,77 @@
+import machine
+import network
+import usocket as socket
+import utime as time
+import _thread
+import json 
+
+#define constants
+threshold_brightness = 100
+threshold_range = 0.5
+conversion_factor = 3.3 / (65535)
+brightness_factor = conversion_factor * 100
+
+
+
+# Define needed ADC pins and Red LED (in this code Red LED is sometimes called as buzzer) pins
+inside_photoresistor_pin = 26
+outside_photoresistor_pin = 27
+thermistor_pin = 28
+redLED_pin = machine.Pin(15, machine.Pin.OUT)
+redLED_status = "Off"
+
+# Function to control the IR emitter
+# def control_ir_emitter(status):
+#     if status == "on":
+#         ir_emitter_pin.on()
+#     elif status == "off":
+#         ir_emitter_pin.off()
+
+# Function to get the buzzer status
+def get_redLED_status():
+    return "On" if redLED_pin.value() == 1 else "Off"
+
+# Function to periodically check the ADC value and control the redLED
+def check_adc_and_control_redLED():
+    global redLED_status  # Declare redLED_status as global
+    adc1 = machine.ADC(inside_photoresistor_pin)
+    adc2 = machine.ADC(outside_photoresistor_pin)  
+    adc3 = machine.ADC(thermistor_pin)
+    while True:
+        adc1_value = adc1.read_u16()
+        inside_photoresistor_val = adc1_value * brightness_factor
+        print("Inside Photoresistor Value:", inside_photoresistor_val)
+
+        adc2_value = adc2.read_u16()
+        outside_photoresistor_val = adc2_value * brightness_factor
+        print("Outside Photoresistor Value:", outside_photoresistor_val)
+
+        adc3_value = adc3.read_u16()
+        thermistor_val = adc3_value * conversion_factor
+        temperature = 27*(thermistor_val - 0.706)/0.001721 
+        print("Thermistor Value:", temperature)
+
+        if (((inside_photoresistor_val - outside_photoresistor_val) < 50) and (outside_photoresistor_val < 100)):
+            print("Brightness ratio met, turning on blinds")
+            redLED_pin.on()
+            while(True):
+                adc2_value = adc2.read_u16()
+                outside_photoresistor_val = adc2_value * brightness_factor
+                print("Outside Photoresistor Value:", outside_photoresistor_val)
+                redLED_pin.on()
+                if(outside_photoresistor_val > 100):
+                    redLED_pin.off()
+                    break
+                time.sleep(1)
+
+        else:
+            print("Outside brightness ratio, turning off blinds")
+            redLED_pin.off()
+
+        redLED_status = get_redLED_status()  # Update redLED_status
+        print("Red LED Status:", redLED_status)
+
+
+        time.sleep(1)
+
+check_adc_and_control_redLED()
