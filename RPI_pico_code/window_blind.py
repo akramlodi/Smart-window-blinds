@@ -188,7 +188,7 @@ def web_page():
             <img src="light sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Light sensor internal</h4> 
-            <p>Light_sensor_internal</p> 
+            <p id="light_sensor_internal>Light_sensor_internal</p> 
             </div>
         </div>
 
@@ -196,7 +196,7 @@ def web_page():
             <img src="heat sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Temperature sensor</h4> 
-            <p>Temperature-sensor</p> 
+            <p id="temperature_sensor">Temperature-sensor</p> 
             </div>
         </div>
 
@@ -205,7 +205,7 @@ def web_page():
             <img src="light sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Light sensor external</h4> 
-            <p>light_sensor_external</p> 
+            <p id="light_sensor_external">light_sensor_external</p> 
             </div>
         </div>
         </div>
