@@ -148,6 +148,25 @@ def web_page():
     }
 
     </style>
+    <script>
+      function updateStatus() {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState == 4 && xhr.status == 200) {
+                  var data = JSON.parse(xhr.responseText);
+                  document.getElementById("irEmitterStatus").innerHTML = data.irEmitterStatus;
+                  var irEmitterColor = data.irEmitterStatus === "ON" ? "purple" : "black";
+                  document.getElementById("irEmitterIndicator").style.backgroundColor = irEmitterColor;
+                  document.getElementById("RedLEDStatus").innerHTML = data.RedLEDStatus;
+                  var buzzerColor = data.RedLEDStatus === "On" ? "red" : "gray";
+                  document.getElementById("buzzerIndicator").style.backgroundColor = buzzerColor;
+              }
+          };
+          xhr.open("GET", "/status", true);
+          xhr.send();
+      }
+      setInterval(updateStatus, 1000); // Refresh every 1 second
+  </script>
 
     </head>
 
