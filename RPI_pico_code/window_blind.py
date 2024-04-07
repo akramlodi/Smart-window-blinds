@@ -29,9 +29,21 @@ redLED_status = "Off"
 def get_redLED_status():
     return "On" if redLED_pin.value() == 1 else "Off"
 
+def get_inside_status():
+    return ((250 - inside_photoresistor_val)/250)
+
+def get_outside_status():
+    return ((250 - outside_photoresistor_val)/250)
+
+def get_temperature_status():
+    return temperature2
+
 # Function to periodically check the ADC value and control the redLED
 def check_adc_and_control_redLED():
     global redLED_status  # Declare redLED_status as global
+    global inside_photoresistor_val
+    global outside_photoresistor_val
+    global temperature2
     adc1 = machine.ADC(inside_photoresistor_pin)
     adc2 = machine.ADC(outside_photoresistor_pin)  
     adc3 = machine.ADC(thermistor_pin)
@@ -44,10 +56,16 @@ def check_adc_and_control_redLED():
         outside_photoresistor_val = adc2_value * brightness_factor
         print("Outside Photoresistor Value:", outside_photoresistor_val)
 
+        # just to check if its working
         adc3_value = adc3.read_u16()
         thermistor_val = adc3_value * conversion_factor
         temperature = 27-(thermistor_val - 0.706)/0.001721 
         print("Thermistor Value:", temperature)
+
+        sensor_temp = machine.ADC(4)
+        reading = sensor_temp.read_u16() * conversion_factor
+        temperature2 = 27 - (reading - 0.706)/0.001721
+        print(temperature2)
 
         if (((inside_photoresistor_val - outside_photoresistor_val) < 50) and (outside_photoresistor_val < 100)):
             print("Brightness ratio met, turning on blinds")
@@ -154,6 +172,31 @@ def web_page():
     align-items: center;
     }
 
+    .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 16px 40px;
+            text-decoration: none;
+            font-size: 30px;
+            margin: 2px;
+            cursor: pointer;
+        }
+        
+    .button2 {
+        background-color: #555555;
+    }
+
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-left: 10px;
+    }
+
     </style>
     <script>
       function updateStatus() {
@@ -190,6 +233,8 @@ def web_page():
             </div>
         </div>
 
+        <p>RedLED Status: <strong id="RedLEDStatus">""" + redLED_status + """</strong><div class="circle" id="buzzerIndicator" style="background-color: """ + buzzer_color + """;"></div></p>
+
         <div class="sensors-container">
         <div class="card">
             <img src="light sensor.jpg" alt="Avatar" style="width:100%">
@@ -223,14 +268,16 @@ def web_page():
     return html
 
 # Function to get the IR emitter status
-def get_ir_emitter_status():
-    return "ON" if ir_emitter_pin.value() == 1 else "OFF"
+# def get_ir_emitter_status():
+#     return "ON" if ir_emitter_pin.value() == 1 else "OFF"
 
 def get_status():
     status = {
-        "irEmitterStatus": get_ir_emitter_status(),
+        # "irEmitterStatus": get_ir_emitter_status(),
         "RedLEDStatus": redLED_status,
-        
+        "InsideBrightness": get_inside_status(),
+        "OutsideBrightness": get_outside_status(),
+        "Temperature": get_temperature_status(),
     }
     return json.dumps(status)
 
