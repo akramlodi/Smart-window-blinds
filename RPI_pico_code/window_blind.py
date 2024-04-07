@@ -11,8 +11,6 @@ threshold_range = 0.5
 conversion_factor = 3.3 / 65535
 brightness_factor = conversion_factor * 100
 
-
-
 # Define needed ADC pins and Red LED (in this code Red LED is sometimes called as buzzer) pins
 inside_photoresistor_pin = 26
 outside_photoresistor_pin = 27
@@ -48,12 +46,21 @@ def check_adc_and_control_redLED():
 
         adc3_value = adc3.read_u16()
         thermistor_val = adc3_value * conversion_factor
-        temperature = 27 (thermistor_val - 0.706)/0.001721 
+        temperature = 27-(thermistor_val - 0.706)/0.001721 
         print("Thermistor Value:", temperature)
 
-        if ((outside_photoresistor_val - inside_photoresistor_val) < 0.5) and ((outside_photoresistor_val - inside_photoresistor_val) > 0) and ((outside_photoresistor_val) < threshold_brightness): 
+        if (((inside_photoresistor_val - outside_photoresistor_val) < 50) and (outside_photoresistor_val < 100)):
             print("Brightness ratio met, turning on blinds")
             redLED_pin.on()
+            while(True):
+                adc2_value = adc2.read_u16()
+                outside_photoresistor_val = adc2_value * brightness_factor
+                print("Outside Photoresistor Value:", outside_photoresistor_val)
+                redLED_pin.on()
+                if(outside_photoresistor_val > 100):
+                    redLED_pin.off()
+                    break
+                time.sleep(1)
 
         else:
             print("Outside brightness ratio, turning off blinds")
