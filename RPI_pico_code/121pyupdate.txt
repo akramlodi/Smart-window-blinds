@@ -48,7 +48,7 @@ def check_adc_and_control_redLED():
 
         adc3_value = adc3.read_u16()
         thermistor_val = adc3_value * conversion_factor
-        temperature = 27*(thermistor_val - 0.706)/0.001721 
+        temperature = 27-(thermistor_val - 0.706)/0.001721 
         print("Thermistor Value:", temperature)
 
         if (((inside_photoresistor_val - outside_photoresistor_val) < 50) and (outside_photoresistor_val < 100)):

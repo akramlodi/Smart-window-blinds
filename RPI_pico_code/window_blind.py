@@ -223,6 +223,7 @@ def get_status():
     status = {
         "irEmitterStatus": get_ir_emitter_status(),
         "RedLEDStatus": redLED_status,
+        
     }
     return json.dumps(status)
 
