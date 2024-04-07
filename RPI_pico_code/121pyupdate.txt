@@ -46,6 +46,7 @@ def check_adc_and_control_redLED():
         outside_photoresistor_val = adc2_value * brightness_factor
         print("Outside Photoresistor Value:", outside_photoresistor_val)
 
+# just to check if its working
         adc3_value = adc3.read_u16()
         thermistor_val = adc3_value * conversion_factor
         temperature = 27-(thermistor_val - 0.706)/0.001721 
