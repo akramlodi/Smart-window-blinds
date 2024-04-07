@@ -51,6 +51,11 @@ def check_adc_and_control_redLED():
         temperature = 27-(thermistor_val - 0.706)/0.001721 
         print("Thermistor Value:", temperature)
 
+        sensor_temp = machine.ADC(4)
+        reading = sensor_temp.read_u16() * conversion_factor
+        temperature2 = 27 - (reading - 0.706)/0.001721
+        print(temperature2)
+
         if (((inside_photoresistor_val - outside_photoresistor_val) < 50) and (outside_photoresistor_val < 100)):
             print("Brightness ratio met, turning on blinds")
             redLED_pin.on()
