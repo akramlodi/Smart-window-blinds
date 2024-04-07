@@ -18,14 +18,7 @@ thermistor_pin = 28
 redLED_pin = machine.Pin(14, machine.Pin.OUT)
 redLED_status = "Off"
 
-# Function to control the IR emitter
-# def control_ir_emitter(status):
-#     if status == "on":
-#         ir_emitter_pin.on()
-#     elif status == "off":
-#         ir_emitter_pin.off()
-
-# Function to get the buzzer status
+# Function to get the Red LED status
 def get_redLED_status():
     return "On" if redLED_pin.value() == 1 else "Off"
 
@@ -45,8 +38,9 @@ def check_adc_and_control_redLED():
     global outside_photoresistor_val
     global temperature2
     adc1 = machine.ADC(inside_photoresistor_pin)
-    adc2 = machine.ADC(outside_photoresistor_pin)  
+    adc2 = machine.ADC(outside_photoresistor_pin)
     adc3 = machine.ADC(thermistor_pin)
+    
     while True:
         adc1_value = adc1.read_u16()
         inside_photoresistor_val = adc1_value * brightness_factor
@@ -70,16 +64,15 @@ def check_adc_and_control_redLED():
         if (((inside_photoresistor_val - outside_photoresistor_val) < 50) and (outside_photoresistor_val < 100)):
             print("Brightness ratio met, turning on blinds")
             redLED_pin.on()
-            while(True):
+            while True:
                 adc2_value = adc2.read_u16()
                 outside_photoresistor_val = adc2_value * brightness_factor
                 print("Outside Photoresistor Value:", outside_photoresistor_val)
                 redLED_pin.on()
-                if(outside_photoresistor_val > 100):
+                if outside_photoresistor_val > 100:
                     redLED_pin.off()
                     break
                 time.sleep(1)
-
         else:
             print("Outside brightness ratio, turning off blinds")
             redLED_pin.off()
@@ -87,9 +80,7 @@ def check_adc_and_control_redLED():
         redLED_status = get_redLED_status()  # Update redLED_status
         print("Red LED Status:", redLED_status)
 
-
         time.sleep(1)
-
 
 # Create a network connection
 ssid = 'SMART_BLINDS'       #Set access point name 
@@ -99,15 +90,13 @@ ap.config(essid=ssid, password=password)
 ap.active(True)            #activating
 
 while ap.active() == False:
-  pass
+    pass
 print('Connection is successful')
 print(ap.ifconfig())
 
 # Define HTTP response
 def web_page():
-    ir_emitter_status = get_ir_emitter_status()
     redLED_status = get_redLED_status()
-    ir_emitter_color = "purple" if ir_emitter_status == "ON" else "black"
     buzzer_color = "red" if redLED_status == "On" else "gray"
     
     html = """<html><head>
@@ -204,9 +193,6 @@ def web_page():
           xhr.onreadystatechange = function() {
               if (xhr.readyState == 4 && xhr.status == 200) {
                   var data = JSON.parse(xhr.responseText);
-                  document.getElementById("irEmitterStatus").innerHTML = data.irEmitterStatus;
-                  var irEmitterColor = data.irEmitterStatus === "ON" ? "purple" : "black";
-                  document.getElementById("irEmitterIndicator").style.backgroundColor = irEmitterColor;
                   document.getElementById("RedLEDStatus").innerHTML = data.RedLEDStatus;
                   var buzzerColor = data.RedLEDStatus === "On" ? "red" : "gray";
                   document.getElementById("buzzerIndicator").style.backgroundColor = buzzerColor;
@@ -240,7 +226,7 @@ def web_page():
             <img src="light sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Light sensor internal</h4> 
-            <p id="light_sensor_internal>Light_sensor_internal</p> 
+            <p id="light_sensor_internal">""" + str(get_inside_status()) + """</p> 
             </div>
         </div>
 
@@ -248,16 +234,15 @@ def web_page():
             <img src="heat sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Temperature sensor</h4> 
-            <p id="temperature_sensor">Temperature-sensor</p> 
+            <p id="temperature_sensor">""" + str(get_temperature_status()) + """</p> 
             </div>
         </div>
-
 
         <div class="card">
             <img src="light sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Light sensor external</h4> 
-            <p id="light_sensor_external">light_sensor_external</p> 
+            <p id="light_sensor_external">""" + str(get_outside_status()) + """</p> 
             </div>
         </div>
         </div>
@@ -267,13 +252,9 @@ def web_page():
     </html>"""
     return html
 
-# Function to get the IR emitter status
-# def get_ir_emitter_status():
-#     return "ON" if ir_emitter_pin.value() == 1 else "OFF"
-
+# Function to get the current status
 def get_status():
     status = {
-        # "irEmitterStatus": get_ir_emitter_status(),
         "RedLEDStatus": redLED_status,
         "InsideBrightness": get_inside_status(),
         "OutsideBrightness": get_outside_status(),
@@ -296,24 +277,15 @@ while True:
     if request:
         request = str(request)
         print('Content = %s' % request)
-        buzzer_on = request.find('/?redLED_pin=on') #buzzer is the red LED
+        buzzer_on = request.find('/?redLED_pin=on')  # redLED_pin is the Red LED
         buzzer_off = request.find('/?redLED_pin=off')
-        ir_emitter_on = request.find('/?ir_emitter_pin=on')
-        ir_emitter_off = request.find('/?ir_emitter_pin=off')
 
     if buzzer_on == 6:
-        print('BUZZER ON')
+        print('Red LED ON')
         redLED_pin.value(1)
     elif buzzer_off == 6:
-        print('BUZZER OFF')
+        print('Red LED OFF')
         redLED_pin.value(0)
-
-    if ir_emitter_on == 6:
-        print('IR EMITTER ON')
-        control_ir_emitter("on")
-    elif ir_emitter_off == 6:
-        print('IR EMITTER OFF')
-        control_ir_emitter("off")
 
     if request.find("/status") == 6:
         response = get_status()
