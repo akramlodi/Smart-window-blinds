@@ -15,7 +15,7 @@ brightness_factor = conversion_factor * 100
 inside_photoresistor_pin = 26
 outside_photoresistor_pin = 27
 thermistor_pin = 28
-redLED_pin = machine.Pin(14, machine.Pin.OUT)
+redLED_pin = machine.Pin(15, machine.Pin.OUT)
 redLED_status = "Off"
 
 # Function to get the Red LED status
