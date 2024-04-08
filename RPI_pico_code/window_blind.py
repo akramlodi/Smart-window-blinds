@@ -22,12 +22,15 @@ redLED_status = "Off"
 def get_redLED_status():
     return "On" if redLED_pin.value() == 1 else "Off"
 
+# Function to get the inside photoresistor status
 def get_inside_status():
     return ((250 - inside_photoresistor_val)/250)
 
+# Function to get the outside photoresistor status
 def get_outside_status():
     return ((250 - outside_photoresistor_val)/250)
 
+# Function to get the thermistor status
 def get_temperature_status():
     return temperature2
 
@@ -41,6 +44,7 @@ def check_adc_and_control_redLED():
     adc2 = machine.ADC(outside_photoresistor_pin)
     adc3 = machine.ADC(thermistor_pin)
     
+    #infinite polling loop to sample ADC values
     while True:
         adc1_value = adc1.read_u16()
         inside_photoresistor_val = adc1_value * brightness_factor
@@ -61,6 +65,7 @@ def check_adc_and_control_redLED():
         temperature2 = 27 - (reading - 0.706)/0.001721
         print(temperature2)
 
+        #control logic for actuator 
         if (((inside_photoresistor_val - outside_photoresistor_val) < 50) and (outside_photoresistor_val < 100)):
             print("Brightness ratio met, turning on blinds")
             redLED_pin.on()
@@ -74,7 +79,7 @@ def check_adc_and_control_redLED():
                     break
                 time.sleep(1)
         else:
-            print("Outside brightness ratio, turning off blinds")
+            print("Outside brightness ratio met, turning off blinds")
             redLED_pin.off()
 
         redLED_status = get_redLED_status()  # Update redLED_status
