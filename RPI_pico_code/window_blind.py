@@ -202,7 +202,7 @@ def web_page():
                   var buzzerColor = data.RedLEDStatus === "On" ? "red" : "gray";
                   document.getElementById("buzzerIndicator").style.backgroundColor = buzzerColor;
                   document.getElementById("light_sensor_internal").innerHTML = data.InsideBrightness;
-                  document.getElementById("light_sensor_external").innerHTML = data.OustideBrightness;
+                  document.getElementById("light_sensor_external").innerHTML = data.OutsideBrightness;
                   document.getElementById("temperature_sensor").innerHTML = data.Temperature;
 
               }
@@ -212,7 +212,6 @@ def web_page():
       }
       setInterval(updateStatus, 1000); // Refresh every 1 second
 
-      //checking if git works
       // Function to send activation request
       function activate() {
           var xhr = new XMLHttpRequest();
@@ -236,8 +235,7 @@ def web_page():
 
         <div class="card">
             <div class="container">
-            <h4>Window Blinds Status</h4> 
-            <p class="color_activation">""" + redLED_status + """</p> 
+            <h4>Window Blinds Status</h4>
             <button type="button" class="btn-activate" onclick="activate()">Activate</button>
             <button type="button" class="btn-disable" onclick="disable()">Disable</button>
             </div>
@@ -326,3 +324,4 @@ while True:
         conn.send("Connection: close\n\n")
         conn.sendall(response)
     conn.close()
+
