@@ -202,7 +202,7 @@ def web_page():
                   var buzzerColor = data.RedLEDStatus === "On" ? "red" : "gray";
                   document.getElementById("buzzerIndicator").style.backgroundColor = buzzerColor;
                   document.getElementById("light_sensor_internal").innerHTML = data.InsideBrightness;
-                  document.getElementById("light_sensor_external").innerHTML = data.OustideBrightness;
+                  document.getElementById("light_sensor_external").innerHTML = data.OutsideBrightness;
                   document.getElementById("temperature_sensor").innerHTML = data.Temperature;
 
               }
