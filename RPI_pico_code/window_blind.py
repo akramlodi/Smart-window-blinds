@@ -245,7 +245,6 @@ def web_page():
 
         <div class="sensors-container">
         <div class="card">
-            <img src="light sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Light sensor internal</h4> 
             <p id="light_sensor_internal">""" + str(get_inside_status()) + """</p> 
@@ -253,7 +252,6 @@ def web_page():
         </div>
 
         <div class="card">
-            <img src="heat sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Temperature sensor</h4> 
             <p id="temperature_sensor">""" + str(get_temperature_status()) + """</p> 
@@ -261,7 +259,6 @@ def web_page():
         </div>
 
         <div class="card">
-            <img src="light sensor.jpg" alt="Avatar" style="width:100%">
             <div class="container">
             <h4>Light sensor external</h4> 
             <p id="light_sensor_external">""" + str(get_outside_status()) + """</p> 
@@ -324,4 +321,5 @@ while True:
         conn.send("Connection: close\n\n")
         conn.sendall(response)
     conn.close()
+
 
