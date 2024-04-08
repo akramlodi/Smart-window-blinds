@@ -89,7 +89,7 @@ def check_adc_and_control_redLED():
 
 # Create a network connection
 ssid = 'SMART_BLINDS'       #Set access point name 
-password = '69420'      #Set your access point password
+password = '123456789'      #Set your access point password
 ap = network.WLAN(network.AP_IF)
 ap.config(essid=ssid, password=password)
 ap.active(True)            #activating
@@ -204,6 +204,7 @@ def web_page():
                   document.getElementById("light_sensor_internal").innerHTML = data.InsideBrightness;
                   document.getElementById("light_sensor_external").innerHTML = data.OustideBrightness;
                   document.getElementById("temperature_sensor").innerHTML = data.Temperature;
+
               }
           };
           xhr.open("GET", "/status", true);
