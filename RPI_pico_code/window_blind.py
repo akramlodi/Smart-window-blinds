@@ -202,7 +202,7 @@ def web_page():
                   var buzzerColor = data.RedLEDStatus === "On" ? "red" : "gray";
                   document.getElementById("buzzerIndicator").style.backgroundColor = buzzerColor;
                   document.getElementById("light_sensor_internal").innerHTML = data.InsideBrightness;
-                  document.getElementById("light_sensor_external").innerHTML = data.OutsideBrightness;
+                  document.getElementById("light_sensor_external").innerHTML = data.OustideBrightness;
                   document.getElementById("temperature_sensor").innerHTML = data.Temperature;
 
               }
@@ -211,6 +211,21 @@ def web_page():
           xhr.send();
       }
       setInterval(updateStatus, 1000); // Refresh every 1 second
+
+      //checking if git works
+      // Function to send activation request
+      function activate() {
+          var xhr = new XMLHttpRequest();
+          xhr.open("GET", "/?redLED_pin=on", true);
+          xhr.send();
+      }
+
+      // Function to send disable request
+      function disable() {
+          var xhr = new XMLHttpRequest();
+          xhr.open("GET", "/?redLED_pin=off", true);
+          xhr.send();
+      }
   </script>
 
     </head>
@@ -222,9 +237,9 @@ def web_page():
         <div class="card">
             <div class="container">
             <h4>Window Blinds Status</h4> 
-            <p class="color_activation">Activated</p> 
-            <button type="button" class="btn-activate">Activate</button>
-            <button type="button" class="btn-disable">Disable</button>
+            <p class="color_activation">""" + redLED_status + """</p> 
+            <button type="button" class="btn-activate" onclick="activate()">Activate</button>
+            <button type="button" class="btn-disable" onclick="disable()">Disable</button>
             </div>
         </div>
 
@@ -292,9 +307,11 @@ while True:
     if buzzer_on == 6:
         print('Red LED ON')
         redLED_pin.value(1)
+        redLED_status = "Activated"  # Update status to "Activated"
     elif buzzer_off == 6:
         print('Red LED OFF')
         redLED_pin.value(0)
+        redLED_status = "Disabled"   # Update status to "Disabled"
 
     if request.find("/status") == 6:
         response = get_status()
